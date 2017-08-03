@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <script>
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.lang = "hi-IN"
+        // recognition.interimResults = true;
+        recognition.onresult = function(event) { 
+            var data = event.results[event.resultIndex][0].transcript
+            document.writeln(event.resultIndex + 1 + ". " + data + "<br>")
+
+            var synth = window.speechSynthesis;
+            synth.lang = "en-US"
+            var utterThis = new SpeechSynthesisUtterance(data);
+            synth.speak(utterThis);
+        }
+
+        recognition.onend = function(event){
+            console.log("onend")
+            recognition.start();
+        }
+
+        recognition.onerror = function(event){
+            console.log("onerror: ", event)
+            recognition.start();
+        }
+
+        recognition.start();
+        </script>
+    </head>
+</html>
